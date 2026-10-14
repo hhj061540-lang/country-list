@@ -21,9 +21,19 @@ jobs:
         run: |
           mkdir -p public/api
 
-          # 1. Generate countries.json using a safe heredoc
+          # 1. Generate countries.json including US, GB, JP, FR, DE, etc.
           cat << 'EOF' > public/api/countries.json
           [
+            { "name": "United States", "code": "US", "flag": "https://flagcdn.com/w80/us.png" },
+            { "name": "United Kingdom", "code": "GB", "flag": "https://flagcdn.com/w80/gb.png" },
+            { "name": "Japan", "code": "JP", "flag": "https://flagcdn.com/w80/jp.png" },
+            { "name": "France", "code": "FR", "flag": "https://flagcdn.com/w80/fr.png" },
+            { "name": "Germany", "code": "DE", "flag": "https://flagcdn.com/w80/de.png" },
+            { "name": "Canada", "code": "CA", "flag": "https://flagcdn.com/w80/ca.png" },
+            { "name": "Australia", "code": "AU", "flag": "https://flagcdn.com/w80/au.png" },
+            { "name": "Singapore", "code": "SG", "flag": "https://flagcdn.com/w80/sg.png" },
+            { "name": "Switzerland", "code": "CH", "flag": "https://flagcdn.com/w80/ch.png" },
+            { "name": "Netherlands", "code": "NL", "flag": "https://flagcdn.com/w80/nl.png" },
             { "name": "Afghanistan", "code": "AF", "flag": "https://flagcdn.com/w80/af.png" },
             { "name": "Albania", "code": "AL", "flag": "https://flagcdn.com/w80/al.png" },
             { "name": "Algeria", "code": "DZ", "flag": "https://flagcdn.com/w80/dz.png" },
@@ -32,7 +42,6 @@ jobs:
             { "name": "Antigua and Barbuda", "code": "AG", "flag": "https://flagcdn.com/w80/ag.png" },
             { "name": "Argentina", "code": "AR", "flag": "https://flagcdn.com/w80/ar.png" },
             { "name": "Armenia", "code": "AM", "flag": "https://flagcdn.com/w80/am.png" },
-            { "name": "Australia", "code": "AU", "flag": "https://flagcdn.com/w80/au.png" },
             { "name": "Austria", "code": "AT", "flag": "https://flagcdn.com/w80/at.png" },
             { "name": "Azerbaijan", "code": "AZ", "flag": "https://flagcdn.com/w80/az.png" },
             { "name": "Bahamas", "code": "BS", "flag": "https://flagcdn.com/w80/bs.png" },
@@ -55,7 +64,6 @@ jobs:
             { "name": "Cabo Verde", "code": "CV", "flag": "https://flagcdn.com/w80/cv.png" },
             { "name": "Cambodia", "code": "KH", "flag": "https://flagcdn.com/w80/kh.png" },
             { "name": "Cameroon", "code": "CM", "flag": "https://flagcdn.com/w80/cm.png" },
-            { "name": "Canada", "code": "CA", "flag": "https://flagcdn.com/w80/ca.png" },
             { "name": "Central African Republic", "code": "CF", "flag": "https://flagcdn.com/w80/cf.png" },
             { "name": "Chad", "code": "TD", "flag": "https://flagcdn.com/w80/td.png" },
             { "name": "Chile", "code": "CL", "flag": "https://flagcdn.com/w80/cl.png" },
@@ -76,7 +84,7 @@ jobs:
           ]
           EOF
 
-          # 2. Generate index.html using a safe heredoc
+          # 2. Generate index.html
           cat << 'EOF' > public/index.html
           <!DOCTYPE html>
           <html lang="en">
@@ -84,46 +92,10 @@ jobs:
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Countries and Flags</title>
-            <style>
-              body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; }
-              h1 { color: #333; }
-              ul { list-style: none; padding: 0; }
-              li { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; padding: 12px; background: #fff; border: 1px solid #ddd; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-              img { width: 50px; height: auto; border: 1px solid #ccc; border-radius: 4px; }
-            </style>
           </head>
           <body>
-
-            <h1>Country List (Generated & Fetched Locally)</h1>
-            <ul id="country-list">Loading countries...</ul>
-
-            <script>
-              async function fetchCountries() {
-                try {
-                  const response = await fetch("./api/countries.json");
-                  if (!response.ok) throw new Error("Could not fetch country data");
-                  
-                  const countries = await response.json();
-                  const listContainer = document.getElementById("country-list");
-                  listContainer.innerHTML = "";
-
-                  countries.forEach(country => {
-                    const li = document.createElement("li");
-                    li.innerHTML = `
-                      <img src="${country.flag}" alt="${country.name} flag">
-                      <span><strong>${country.name}</strong> (${country.code})</span>
-                    `;
-                    listContainer.appendChild(li);
-                  });
-                } catch (error) {
-                  document.getElementById("country-list").innerText = "Error loading data.";
-                  console.error(error);
-                }
-              }
-
-              fetchCountries();
-            </script>
-
+            <h1>Country List API</h1>
+            <p>Access <a href="./api/countries.json">./api/countries.json</a></p>
           </body>
           </html>
           EOF
